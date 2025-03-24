@@ -6,45 +6,34 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Stack;
-import java.util.StringTokenizer;
 
-public class Ex10799{
-	public static void main(String args[]) throws IOException{
+public class Ex10799 {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        
-        Stack<Integer> stack = new Stack<Integer>();
-        
-        int n = Integer.parseInt(st.nextToken());
 
-        st = new StringTokenizer(br.readLine());
-        int[] t = new int[n];
-        for (int i=0; i<n; i++) {
-        	t[i] = Integer.parseInt(st.nextToken());
+        String st = br.readLine();
+        Stack<Character> stack = new Stack<>();
+        int count = 0;
+
+        for (int i = 0; i < st.length(); i++) {
+            char ch = st.charAt(i);
+
+            if (ch == '(') {
+                stack.push(ch);
+            } else {
+                stack.pop();
+                if (st.charAt(i - 1) == '(') { 
+                    count += stack.size();
+                } else {
+                    count++;
+                }
+            }
         }
 
-    	for(int i = 0; i < n; i++) {
-
-			while(!stack.isEmpty() && t[stack.peek()] < t[i]) {
-				t[stack.pop()] = t[i];
-			}
-			
-			stack.push(i);
-		}
-
-		while(!stack.isEmpty()) {
-			t[stack.pop()] = -1;
-		}
-		
-    	for(int i = 0; i < n; i++) {
-    		bw.write(String.valueOf(t[i]));
-    		bw.write(" ");
-		}
-
+        bw.write(String.valueOf(count));
         br.close();
         bw.flush();
         bw.close();
-	}
-
+    }
 }
